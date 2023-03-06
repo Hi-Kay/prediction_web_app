@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 import numpy as np
+import matplotlib
+#matplotlib.use("macOSX")
 import matplotlib.pyplot as plt
+
 
 # TensorFlow and tf.keras
 
@@ -51,13 +54,15 @@ def predict():
     probabilities = np.round(probabilities,3)[0]
     class_probabilities = dict(zip(CLASSES,probabilities))
 
+    """
     plt.bar(range(len(class_probabilities)), list(class_probabilities.values()), align='center')
     plt.xticks(range(len(class_probabilities)), list(class_probabilities.keys()))
     plt.plot()
-    plt.savefig('/static/images/new_plot.png')
+    plt.show
+    plt.savefig('/static/images/new_plot.png') """
 
-    
-    return render_template('prediction.html', prediction =  class_probabilities, image=img, name = 'new_plot', url ='/static/images/new_plot.png')
+    return render_template('prediction.html', prediction =  class_probabilities, image=img)
+    #return render_template('prediction.html', prediction =  class_probabilities, image=img, name = 'new_plot', url ='/static/images/new_plot.png')
 
 
 
