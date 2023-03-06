@@ -51,10 +51,13 @@ def predict():
     probabilities = np.round(probabilities,3)[0]
     class_probabilities = dict(zip(CLASSES,probabilities))
 
-    #plt.bar(range(len(class_probabilities)), list(class_probabilities.values()), align='center')
-    #plt.xticks(range(len(class_probabilities)), list(class_probabilities.keys()))
+    plt.bar(range(len(class_probabilities)), list(class_probabilities.values()), align='center')
+    plt.xticks(range(len(class_probabilities)), list(class_probabilities.keys()))
+    plt.plot()
+    plt.savefig('/static/images/new_plot.png')
+
     
-    return render_template('prediction.html', prediction =  class_probabilities, image=img)
+    return render_template('prediction.html', prediction =  class_probabilities, image=img, name = 'new_plot', url ='/static/images/new_plot.png')
 
 
 
