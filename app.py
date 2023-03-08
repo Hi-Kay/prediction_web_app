@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 import numpy as np
-import matplotlib
+#import matplotlib
 #matplotlib.use("macOSX")
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 # deep learning stack
