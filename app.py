@@ -5,41 +5,42 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-# TensorFlow and tf.keras
-
+# deep learning stack
 import tensorflow as tf
 from tensorflow import keras
-
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image
 from keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras import backend as K
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
-#from keras.preprocessing.image import load_img
-#from keras.preprocessing.image import img_to_array
-#from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions, ima_to_array
 
 
 
 app = Flask(__name__)
 # sequence local
-model = load_model('models/model_VGG16.h5')
+model = load_model('models/model_VGG16_local_0503_cleaning.h5')
 CLASSES = ['cataract', 'glaucoma', 'diabetes', 'normal']
 # sequence colab
-CLASSES = ['normal', 'diabetes', 'glaucoma', 'cataract']
+#CLASSES = ['normal', 'diabetes', 'glaucoma', 'cataract']
 
 @app.route('/', methods=['GET'])
-def hello_world():
+def start_page():
     return render_template('index.html')
 
 
-@app.route('/prediction', methods=['POST', 'GET'])
+@app.route('/', methods=['POST'])
 def predict():
+    # get age and sex values
+    ageValue = request.form['age']
+    sexValue = request.form['sex']
+
+    # get image and save it
     imagefile = request.files['imagefile']
-    image_path = "static/image.jpg" #+ imagefile.filename
+    image_path = "static/assets/image.jpg" #+ imagefile.filename
     imagefile.save(image_path)
     
+    # image loading and preprocessing 
     img = image.load_img(
         path=image_path,
         target_size=(224,224)
@@ -47,22 +48,34 @@ def predict():
     img_array = image.img_to_array(img)
     img_batch = np.array([img_array])
     preprocessed_img = preprocess_input(img_batch)
+
+    # prediction
     probabilities = model.predict(
         preprocessed_img,
         verbose=0
     )
     probabilities = np.round(probabilities,3)[0]
+
+    # save CLASSES and probabilities in dictionary 
     class_probabilities = dict(zip(CLASSES,probabilities))
 
-    """
-    plt.bar(range(len(class_probabilities)), list(class_probabilities.values()), align='center')
-    plt.xticks(range(len(class_probabilities)), list(class_probabilities.keys()))
-    plt.plot()
-    plt.show
-    plt.savefig('/static/images/new_plot.png') """
+    # get specific values for each class 
+    probability_normal = probabilities[0]
+    probability_diabetes = probabilities[1]
+    probability_glaucoma = probabilities[2]
+    probability_cataract = probabilities[3]
 
-    return render_template('prediction.html', prediction =  class_probabilities, image=img)
-    #return render_template('prediction.html', prediction =  class_probabilities, image=img, name = 'new_plot', url ='/static/images/new_plot.png')
+
+    return render_template('index.html', 
+                           age = ageValue,
+                           sex = sexValue,
+                           prediction = class_probabilities, 
+                           probability_normal = probability_normal,
+                           probability_diabetes = probability_diabetes,
+                           probability_glaucoma = probability_glaucoma,
+                           probability_cataract = probability_cataract,
+                           image=img
+                           )
 
 
 

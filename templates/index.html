@@ -5,27 +5,132 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eye Test</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-
+    <title>Eye Analyzer App</title>
+    <link rel="stylesheet" href="static/css/custom-simple.css">
 </head>
 
 <body>
     <h1>Eye Analyzer App</h1>
-    <p>Description Text Blabla</p>
-    <!-- <img src="/assets/placeholderImage.jpg" width="250px" height="250px"> -->
-    <form action='/prediction' , method="post" enctype="multipart/form-data">
-        <input type="file" name="imagefile" value="Image Upload">
-        <input type="submit" value="Predict Image">
+    <p>Upload an image of a patients eye and press the Analyze button. This tool will check for diabetes, glaucoma and cataract!</p>    
+
+  <!-- Start submit form -->
+    <form action='/' method="post" enctype="multipart/form-data">
+
+      <div style="float: left; margin: 10px;">
+        <label>Age:</label>
+        <input type="number" name="age" min="0" max="100">
+      </div>
+
+      <div style="float: left; margin: 10px;">
+        <label>Sex:</label>
+        <label><input checked="checked" name="sex" type="radio" value="female" /> Female</label> 
+        <label><input name="sex" type="radio" value="male" /> Male</label> 
+      </div>
+
+      <div style="float: left; margin: 10px;">
+        <input type="file" name="imagefile" value="Image Upload" required>
+      </div>
+
+      <div style="float: right; margin: 10px;">
+        <input type="reset" style="background-color: gray;">
+        <input type="submit" value="Analyze">
+      </div>
+
     </form>
 
-    <!-- {% if prediction %} -->
-<!--     <h2>Result:</h2>
-    <p> Image is a {{prediction}}</p>
-    <img src="static/image.jpg" width="500px" height="500px"> -->
+  <!-- Results section -->
+  {% if prediction %}
 
-    <!-- {% endif %} -->
+    <article style="margin-top: 20px;">
+      <h3>Results:</h3>
 
+        <!-- Chart js ResultsChart Section -->
+        <div>
+          <canvas id="resultsChart"></canvas>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <script>
+            const ctx = document.getElementById('resultsChart');
+
+            Chart.defaults.font.size = 18;
+            Chart.defaults.color = '#212121';
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: ['Healthy', 'Diabetes', 'Glaucoma', 'Cataract'],
+                  datasets: [{
+                    label: 'calculated probability',
+                    backgroundColor: '#0d47a180',
+                    borderColor: '#0d47a1',
+                    data: [
+                        {{probability_normal}}, 
+                        {{probability_diabetes}}, 
+                        {{probability_glaucoma}}, 
+                        {{probability_cataract}}
+                    ],
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  indexAxis: 'y',
+                  scales: {
+                    x: {
+                        min: 0,
+                        max: 1,
+                        display: true,
+                    },
+                    y: {
+                        beginAtZero: true,
+                    }
+                  }
+                }
+            });
+        </script>
+
+  <!-- image section -->
+    <div id="wrapper" style="overflow: hidden;">
+      <img 
+        id="diagnosedEyeImage" 
+        src="static/assets/image.jpg" 
+        width="250px" 
+        height="250px" 
+        style="float: left; margin-top: 30px;"
+      >
+
+      <div style="float: left; margin: 10px;">
+        <p><b>Age:</b> {{age}} </br><b>Sex:</b> {{sex}}</p>
+      </div>
+    <!-- Results Table -->
+          <!-- <table style="float: left;">
+            <thead>
+              <tr>
+                <th>Diagnosis</th>
+                <th>Probabilities</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for key, value in prediction.items() %}
+            <tr>
+                <td> {{ key }} </td>
+                <td> {{ value }} </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table> -->
+    </div>
+
+      <p><b>Warning!</b> This is not medical advice and for demonstration purposes only.</p>
+
+      <!-- <img src="static/assets/placeholderResult.jpg" width="500px" height="500px"> -->
+    </article>
+  {% endif %}
+
+    <footer>
+        &copy; Heike Romanowski 2023 – Eye Analyzer App
+    </footer>
 </body>
 
 </html>
