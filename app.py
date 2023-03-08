@@ -60,10 +60,10 @@ def predict():
     class_probabilities = dict(zip(CLASSES,probabilities))
 
     # get specific values for each class 
-    probability_normal = probabilities[0]
-    probability_diabetes = probabilities[1]
-    probability_glaucoma = probabilities[2]
-    probability_cataract = probabilities[3]
+    probability_cataract = probabilities[0]
+    probability_glaucoma = probabilities[1]
+    probability_diabetes = probabilities[2]
+    probability_normal = probabilities[3]
 
 
     return render_template('index.html', 

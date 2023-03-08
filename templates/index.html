@@ -11,7 +11,7 @@
 
 <body>
     <h1>Eye Analyzer App</h1>
-    <p>Upload an image of a patients eye and press the Analyze button. This tool will check for diabetes, glaucoma and cataract!</p>    
+    <p>Upload an image of a patients eye fundus and press the Analyze button. This tool will check for diabetes, glaucoma and cataract!</p>    
 
   <!-- Start submit form -->
     <form action='/' method="post" enctype="multipart/form-data">
@@ -28,7 +28,7 @@
       </div>
 
       <div style="float: left; margin: 10px;">
-        <input type="file" name="imagefile" value="Image Upload" required>
+        <input type="file" name="imagefile" value="Image Upload" accept="image/png, image/gif, image/jpeg" required>
       </div>
 
       <div style="float: right; margin: 10px;">
