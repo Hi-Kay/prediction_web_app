@@ -10,24 +10,26 @@
 </head>
 
 <body>
-    <h1>Eye Analyzer App</h1>
+    <h1>Insight - Eye Analyzer</h1> 
+
+  
     <p>Upload an image of a patients eye fundus and press the Analyze button. This tool will check for diabetes, glaucoma and cataract!</p>    
 
   <!-- Start submit form -->
-    <form action='/' method="post" enctype="multipart/form-data">
+    <form action='/' method="post" enctype="multipart/form-data" style="overflow: hidden;">
 
-      <div style="float: left; margin: 10px;">
+      <div style="float: left; margin-left:3px; margin-right: 40px;">
         <label>Age:</label>
-        <input type="number" name="age" min="0" max="100">
+        <input type="number" name="age" min="0" max="100" style="margin-top: 5px;">
       </div>
 
-      <div style="float: left; margin: 10px;">
+      <div style="float: left; margin-right: 40px;">
         <label>Sex:</label>
-        <label><input checked="checked" name="sex" type="radio" value="female" /> Female</label> 
+        <label><input checked="checked" name="sex" type="radio" value="female" style="margin-top: 5px;"/> Female</label> 
         <label><input name="sex" type="radio" value="male" /> Male</label> 
       </div>
 
-      <div style="float: left; margin: 10px;">
+      <div style="float: left; margin-top: 20px;">
         <input type="file" name="imagefile" value="Image Upload" accept="image/png, image/gif, image/jpeg" required>
       </div>
 
@@ -42,7 +44,7 @@
   {% if prediction %}
 
     <article style="margin-top: 20px;">
-      <h3>Results:</h3>
+      <h3 style="margin-top: 0;">Results:</h3>
 
         <!-- Chart js ResultsChart Section -->
         <div>

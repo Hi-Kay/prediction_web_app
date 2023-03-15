@@ -1,9 +1,5 @@
 from flask import Flask, render_template, request
 import numpy as np
-#import matplotlib
-#matplotlib.use("macOSX")
-#import matplotlib.pyplot as plt
-
 
 # deep learning stack
 import tensorflow as tf
@@ -16,13 +12,11 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 
 
-
 app = Flask(__name__)
-# sequence local
+
 model = load_model('models/model_VGG16_local_0503_cleaning.h5')
 CLASSES = ['cataract', 'glaucoma', 'diabetes', 'normal']
-# sequence colab
-#CLASSES = ['normal', 'diabetes', 'glaucoma', 'cataract']
+
 
 @app.route('/', methods=['GET'])
 def start_page():
@@ -76,7 +70,6 @@ def predict():
                            probability_cataract = probability_cataract,
                            image=img
                            )
-
 
 
 
