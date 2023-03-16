@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eye Analyzer App</title>
-    <link rel="stylesheet" href="static/css/custom-simple.css">
-</head>
+    <link rel="stylesheet" href="static/css/simple.css">
+    <link rel="stylesheet" href="static/css/custom.css">
+  </head>
 
 <body>
     <h1>Insight - Eye Analyzer</h1> 
@@ -17,33 +18,67 @@
   <!-- Start submit form -->
     <form action='/' method="post" enctype="multipart/form-data" style="overflow: hidden;">
 
-      <div style="float: left; margin-left:3px; margin-right: 40px;">
+      <div style="float: left; margin-right: 15px;">
         <label>Age:</label>
         <input type="number" name="age" min="0" max="100" style="margin-top: 5px;">
       </div>
 
-      <div style="float: left; margin-right: 40px;">
+      <div style="float: left; margin-right: 15px;">
         <label>Sex:</label>
         <label><input checked="checked" name="sex" type="radio" value="female" style="margin-top: 5px;"/> Female</label> 
         <label><input name="sex" type="radio" value="male" /> Male</label> 
       </div>
+      
+      <!-- Image File upload -->
+      <!-- <div style="float: left; margin: 10px;">
+        <input type="file" name="imagefile" value="Image Upload" accept="image/*" required>
+      </div> -->
 
-      <div style="float: left; margin-top: 20px;">
-        <input type="file" name="imagefile" value="Image Upload" accept="image/png, image/gif, image/jpeg" required>
+      <!-- Image gallery -->
+      <div class="image-gallery" style="overflow: hidden;">
+          <div style="margin-left: 5px;">Select an image:</div>
+          <img src="/static/test_images/normal/1_left.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/cataract/24_right.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/cataract/254_left.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/cataract/477_left.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/cataract/254_left.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/cataract/477_left.jpg" class="gallery-image clickable">
       </div>
+      <input type="hidden" name="selected_image" id="selected-image">
 
+      <!-- submit buttons -->
       <div style="float: right; margin: 10px;">
         <input type="reset" style="background-color: gray;">
         <input type="submit" value="Analyze">
       </div>
-
     </form>
+  
+    <script>
+      const images = document.querySelectorAll('.clickable');
+
+      images.forEach(image => {
+        image.addEventListener('click', event => {
+          // remove highlight from all images
+          images.forEach(otherImage => {
+            otherImage.classList.remove('highlight');
+          });
+    
+          // add highlight to clicked image
+          image.classList.add('highlight');
+
+          // get image file path and set to selected-image for submit
+          const filePath = event.target.getAttribute('src');
+          document.getElementById('selected-image').value = filePath;
+        });
+      });
+    </script>
+
 
   <!-- Results section -->
   {% if prediction %}
 
     <article style="margin-top: 20px;">
-      <h3 style="margin-top: 0;">Results:</h3>
+      <h3>Results:</h3>
 
         <!-- Chart js ResultsChart Section -->
         <div>
@@ -95,7 +130,7 @@
     <div id="wrapper" style="overflow: hidden;">
       <img 
         id="diagnosedEyeImage" 
-        src="static/assets/image.jpg" 
+        src="{{ image }}" 
         width="250px" 
         height="250px" 
         style="float: left; margin-top: 30px;"

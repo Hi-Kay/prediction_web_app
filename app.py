@@ -25,18 +25,24 @@ def start_page():
 
 @app.route('/', methods=['POST'])
 def predict():
+
+    if request.form['selected_image']: # image via gallery selection
+        image_path = request.form['selected_image'].replace('/', '', 1)
+    # if request.files['imagefile']: # image via file upload
+        # imagefile = request.files['imagefile']
+        # image_path = "static/assets/image.jpg"
+        # imagefile.save(image_path)
+    else:
+        return render_template('index.html')
+    
     # get age and sex values
     ageValue = request.form['age']
     sexValue = request.form['sex']
 
-    # get image and save it
-    imagefile = request.files['imagefile']
-    image_path = "static/assets/image.jpg" #+ imagefile.filename
-    imagefile.save(image_path)
     
     # image loading and preprocessing 
     img = image.load_img(
-        path=image_path,
+        path= image_path,
         target_size=(224,224)
     )
     img_array = image.img_to_array(img)
@@ -68,10 +74,10 @@ def predict():
                            probability_diabetes = probability_diabetes,
                            probability_glaucoma = probability_glaucoma,
                            probability_cataract = probability_cataract,
-                           image=img
+                           image=image_path
                            )
 
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run()

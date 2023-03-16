@@ -1,0 +1,13 @@
+.gallery-image {
+    float: left; 
+    margin: 5px;
+    width: 30%;
+}
+
+.highlight {
+    outline: 4px solid cornflowerblue;
+  }
+  
+h3 {
+    margin-top: 0;
+}
