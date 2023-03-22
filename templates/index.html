@@ -13,7 +13,8 @@
 <body>
     <h1>Insight - Eye Analyzer</h1> 
 
-    <p>Upload an image of a patients eye fundus and press the Analyze button. This tool will check for diabetes, glaucoma and cataract!</p>    
+    <!-- <p>Upload an image of a patients eye fundus and press the Analyze button. This tool will check for diabetes, glaucoma and cataract!</p>     -->
+    <p>A Deep Learning Model was trained to with eye fundus images to detect diseases. You can use the test images to check for diabetes, glaucoma and cataract!</p>    
 
   <!-- Start submit form -->
     <form action='/' method="post" enctype="multipart/form-data" style="overflow: hidden;">
@@ -37,12 +38,13 @@
       <!-- Image gallery -->
       <div class="image-gallery" style="overflow: hidden;">
           <div style="margin-left: 5px;">Select an image:</div>
-          <img src="/static/test_images/normal/1_left.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/normal/16_left.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/glaucoma/1389_right.jpg" class="gallery-image clickable">
           <img src="/static/test_images/diabetes/19_left.jpg" class="gallery-image clickable">
           <img src="/static/test_images/diabetes/11_left.jpg" class="gallery-image clickable">
-          <img src="/static/test_images/cataract/354_rigt.jpg" class="gallery-image clickable">
+          <img src="/static/test_images/cataract/354_right.jpg" class="gallery-image clickable">
           <img src="/static/test_images/glaucoma/1210_left.jpg" class="gallery-image clickable">
-          <img src="/static/test_images/glaucoma/746_right.jpg" class="gallery-image clickable">
+          
       </div>
       <input type="hidden" name="selected_image" id="selected-image">
 
